@@ -88,6 +88,7 @@ class SemicircleDemo extends StatelessWidget {
 
         return Text("$currentItem");
       },
+      onRefresh: () async {},
       labelConstraints: BoxConstraints.tightFor(width: 80.0, height: 30.0),
       controller: controller,
       child: GridView.builder(

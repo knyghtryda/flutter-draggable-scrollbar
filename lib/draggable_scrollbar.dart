@@ -22,6 +22,9 @@ class DraggableScrollbar extends StatefulWidget {
   /// The view that will be scrolled with the scroll thumb
   final BoxScrollView child;
 
+  /// Callback for pull to refresh
+  final Function onRefresh;
+
   /// A function that builds a thumb using the current configuration
   final ScrollThumbBuilder scrollThumbBuilder;
 
@@ -60,6 +63,7 @@ class DraggableScrollbar extends StatefulWidget {
     @required this.scrollThumbBuilder,
     @required this.child,
     @required this.controller,
+    this.onRefresh,
     this.padding,
     this.scrollbarAnimationDuration = const Duration(milliseconds: 300),
     this.scrollbarTimeToFade = const Duration(milliseconds: 600),
@@ -76,6 +80,7 @@ class DraggableScrollbar extends StatefulWidget {
     this.alwaysVisibleScrollThumb = false,
     @required this.child,
     @required this.controller,
+    this.onRefresh,
     this.heightScrollThumb = 48.0,
     this.backgroundColor = Colors.white,
     this.padding,
@@ -94,6 +99,7 @@ class DraggableScrollbar extends StatefulWidget {
     this.alwaysVisibleScrollThumb = false,
     @required this.child,
     @required this.controller,
+    this.onRefresh,
     this.heightScrollThumb = 48.0,
     this.backgroundColor = Colors.white,
     this.padding,
@@ -112,6 +118,7 @@ class DraggableScrollbar extends StatefulWidget {
     this.alwaysVisibleScrollThumb = false,
     @required this.child,
     @required this.controller,
+    this.onRefresh,
     this.heightScrollThumb = 48.0,
     this.backgroundColor = Colors.white,
     this.padding,
@@ -384,7 +391,10 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
         child: Stack(
           children: <Widget>[
             RepaintBoundary(
-              child: widget.child,
+              child: widget.onRefresh != null
+                  ? RefreshIndicator(
+                      child: widget.child, onRefresh: widget.onRefresh)
+                  : widget.child,
             ),
             RepaintBoundary(
                 child: GestureDetector(
